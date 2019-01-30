@@ -58,8 +58,8 @@ def poll_queue(status):
         buildID = str(i['id'])
         taskName = str(i['task']['name'])
         buildWhy = str(i['why'])
-        dateTime = datetime.datetime.fromtimestamp((time.time() - i['inQueueSince'] / 1e3))
-        timeInQueue = str(dateTime.strftime("%H:%M:%S"))
+        dateTime = (datetime.datetime.now() - datetime.datetime.fromtimestamp(i['inQueueSince'] / 1e3))
+        timeInQueue = str(dateTime).split('.')[0]
         buildTable.append([buildID, taskName, change_no, commit, owner, buildWhy, timeInQueue])
 
         # outputStr = (buildID + ",\t" + taskName + ",\t" + buildWhy + ",\tChange no: " + change_no + ",\tCommit: " + commit)
