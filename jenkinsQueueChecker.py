@@ -90,7 +90,11 @@ try:
     screen = cursesTui.Screen(poll_queue('x'))
     while True:
         for st in status:
-            screen.input_stream_no_loop(1)
+            try:
+                screen.input_stream_no_loop(1)
+            except curses.error as error:
+                print("Curses Error, try widening the console area")
+                raise error
             # time.sleep(1)
             if time.time() - refreshBase > refreshTime:
                 screen.update_items(poll_queue(st))
