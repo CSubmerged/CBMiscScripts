@@ -85,13 +85,13 @@ def sigterm_handler(signal, frame):
 signal.signal(signal.SIGTERM, sigterm_handler)
 status = ['|', '/', '-', '\\']
 refreshBase = time.time()
-refreshTime = 5
+refreshTime = 15
 try:
     screen = cursesTui.Screen(poll_queue('x'))
     while True:
         for st in status:
             try:
-                screen.input_stream_no_loop(1)
+                screen.input_stream_no_loop(2)
             except curses.error as error:
                 print("Curses Error, try widening the console area")
                 raise error
