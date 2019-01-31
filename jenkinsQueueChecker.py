@@ -55,9 +55,13 @@ def poll_queue(status):
                         owner = str(x.get('value'))
             except TypeError:
                 continue
+        if len(commit) > 100:
+            commit = commit[:97] + "..."
         buildID = str(i['id'])
         taskName = str(i['task']['name'])
         buildWhy = str(i['why'])
+        if len(buildWhy) > 75:
+            buildWhy = buildWhy[:72] + "..."
         dateTime = (datetime.datetime.now() - datetime.datetime.fromtimestamp(i['inQueueSince'] / 1e3))
         timeInQueue = str(dateTime).split('.')[0]
         buildTable.append([buildID, taskName, change_no, commit, owner, buildWhy, timeInQueue])
@@ -65,7 +69,7 @@ def poll_queue(status):
         # outputStr = (buildID + ",\t" + taskName + ",\t" + buildWhy + ",\tChange no: " + change_no + ",\tCommit: " + commit)
         # print(colored(outputStr, colour))
 
-    headers = ['BuildID', 'Job Name', 'Gerrit Change No', 'Commit Header', 'Owner', 'Queue Reason', 'Time in queue']
+    headers = ['BuildID', 'Job Name', 'Gerrit No.', 'Commit Header', 'Owner', 'Queue Reason', 'Queue Time']
     # fileOut.append(tabulate(buildTable, headers=headers))
     for n in tabulate(buildTable, headers=headers).split('\n'):
         fileOut.append(n)
