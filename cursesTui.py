@@ -5,7 +5,7 @@ import signal
 def alarmHandler(signum, frame):
     raise TimeoutError
 
-
+# Origin:
 # https://github.com/mingrammer/python-curses-scroll-example/blob/master/tui.py
 
 class Screen(object):
@@ -188,4 +188,6 @@ class Screen(object):
 
     def update_items(self, items):
         self.items = items
+        self.bottom = len(items)
+        self.page = self.bottom // self.max_lines
 

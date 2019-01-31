@@ -14,13 +14,6 @@ import cursesTui
 
 serverURL = "http://cv.jenkins.couchbase.com/"
 
-# user = server.get_whoami()
-# print(user['fullName'])
-
-# jobs = server.get_jobs()
-# for i in jobs:
-#     print(i['name'])
-
 # Curses
 stdscr = curses.initscr()
 curses.noecho()
@@ -37,10 +30,6 @@ def poll_queue(status):
     fileOut.append("Current Queue length: " + str(len(queue_info)))
     buildTable = []
     for i in queue_info:
-        colour = None
-        for text in (i['task']['color']).split('_'):
-            if text in ['red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white']:
-                colour = str(text)
         commit = ""
         change_no = ""
         owner = ""
@@ -65,9 +54,6 @@ def poll_queue(status):
         dateTime = (datetime.datetime.now() - datetime.datetime.fromtimestamp(i['inQueueSince'] / 1e3))
         timeInQueue = str(dateTime).split('.')[0]
         buildTable.append([buildID, taskName, change_no, commit, owner, buildWhy, timeInQueue])
-
-        # outputStr = (buildID + ",\t" + taskName + ",\t" + buildWhy + ",\tChange no: " + change_no + ",\tCommit: " + commit)
-        # print(colored(outputStr, colour))
 
     headers = ['BuildID', 'Job Name', 'Gerrit No.', 'Commit Header', 'Owner', 'Queue Reason', 'Queue Time']
     # fileOut.append(tabulate(buildTable, headers=headers))
