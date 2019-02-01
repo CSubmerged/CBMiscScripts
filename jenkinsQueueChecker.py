@@ -46,9 +46,11 @@ def poll_queue(status):
                 continue
         if len(commit) > 100:
             commit = commit[:97] + "..."
-        buildID = str(i['id'])
-        taskName = str(i['task']['name'])
-        buildWhy = str(i['why'])
+        buildID = str(i.get('id'))
+        taskName = str(i.get('task').get('name'))
+        buildWhy = str(i.get('why'))
+        if taskName == 'None':
+            taskName = "Unknown task"
         if len(buildWhy) > 75:
             buildWhy = buildWhy[:72] + "..."
         dateTime = (datetime.datetime.now() - datetime.datetime.fromtimestamp(i['inQueueSince'] / 1e3))
@@ -60,7 +62,6 @@ def poll_queue(status):
     for n in tabulate(buildTable, headers=headers).split('\n'):
         fileOut.append(n)
     return fileOut
-
 
 
 def sigterm_handler(signal, frame):
